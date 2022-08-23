@@ -1,17 +1,19 @@
-const controlRelayLed = document.getElementById("relay_led");
+const controlRelayMist = document.getElementById("relay_mist");
 const controlRelayFan = document.getElementById("relay_fan");
+const controlRelayLed = document.getElementById("relay_led");
 const controlRelayPump = document.getElementById("relay_pump");
 const fanPWM = document.getElementById("fan_pwm");
-const ledPWM = document.getElementById("led_pwm");
-const ledPWMVal = document.getElementById("pwm_led_val");
+const mistPWM = document.getElementById("mist_pwm");
+const mistPWMVal = document.getElementById("pwm_mist_val");
 const fanPWMVal = document.getElementById("pwm_fan_val");
 
 const setFan = document.getElementById("setFan");
-const setLed = document.getElementById("setLed");
+const setMist = document.getElementById("setMist");
 
 var fanStatus = false;
-var ledStatus = false;
+var mistStatus = false;
 var pumpStatus = false;
+var ledStatus = true;
 setFan.addEventListener("click", () => {
   if (controlRelayFan.checked == true) {
     fanStatus = true;
@@ -28,20 +30,20 @@ setFan.addEventListener("click", () => {
 fanPWM.addEventListener("change", () => {
   fanPWMVal.innerHTML = fanPWM.value + "%";
 });
-ledPWM.addEventListener("change", () => {
-  ledPWMVal.innerHTML = ledPWM.value + "%";
+mistPWM.addEventListener("change", () => {
+  mistPWMVal.innerHTML = mistPWM.value + "%";
 });
-setLed.addEventListener("click", () => {
-  if (controlRelayLed.checked == true) {
-    ledStatus = true;
+setMist.addEventListener("click", () => {
+  if (controlRelayMist.checked == true) {
+    mistStatus = true;
   } else {
-    ledStatus = false;
+    mistStatus = false;
   }
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "http://localhost/api-pembibitan/kontrol.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("dutyLed=" + ledPWM.value + "&relayLed=" + ledStatus);
+  xhttp.send("dutyMist=" + mistPWM.value + "&relayMist=" + mistStatus);
 });
 
 controlRelayPump.addEventListener("change", () => {
@@ -54,4 +56,16 @@ controlRelayPump.addEventListener("change", () => {
   xhttp.open("POST", "http://localhost/api-pembibitan/kontrol.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("relayPump=" + pumpStatus);
+});
+
+controlRelayLed.addEventListener("change", () => {
+  if (controlRelayLed.checked == true) {
+    ledStatus = true;
+  } else {
+    ledStatus = false;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "http://localhost/api-pembibitan/kontrol.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("relayLed=" + ledStatus);
 });

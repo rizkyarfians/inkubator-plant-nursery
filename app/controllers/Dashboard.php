@@ -10,7 +10,7 @@ class Dashboard extends Controller{
     }
     public function index(){
         $data['judul'] = 'Dashboard';
-        $data['sensor'] = $this->model('Data_model')->averageDataSensor();
+        $data['sensor'] = $this->model('Data_model')->getRealtimeSensor();
         $data['kontrol'] = $this->model('Data_model')->getDataKontrol();
         $data['form'] = $this->model('Data_model')->getDataForm();
         $role = $this->model('User_model')->getRole();

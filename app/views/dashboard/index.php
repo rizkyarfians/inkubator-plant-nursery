@@ -5,19 +5,19 @@
         <ul>
             <li class="card">
                 <h3>Suhu Udara</h3>
-                <h1 id="suhu_udara"><?= $data['sensor']['avgSuhu']; ?></h1>
+                <h1 id="suhu_udara"><?= $data['sensor']['suhu']; ?></h1>
             </li>
             <li class="card">
-                <h3>Kelembaan Udara</h3>
-                <h1 id="kelembapan_udara"><?= $data['sensor']['avgKelembapan']; ?></h1>
+                <h3>Kelembapan Udara</h3>
+                <h1 id="kelembapan_udara"><?= $data['sensor']['kelembapan']; ?></h1>
             </li>
             <li class="card">
-                <h3>Level Air</h3>
-                <h1 id="ketinggian_air"><?= $data['sensor']['avgLevel']; ?></h1>
+                <h3>Ketinggian Tanaman</h3>
+                <h1 id="ketinggian_air"><?= $data['sensor']['ketinggian_tanaman']; ?></h1>
             </li>
             <li class="card">
                 <h3>Intensitas Cahaya</h3>
-                <h1 id="intensitas_cahaya_label"><?= $data['sensor']['avgIntensitasCahaya']; ?></h1>
+                <h1 id="intensitas_cahaya_label"><?= $data['sensor']['intensitas_cahaya']; ?></h1>
             </li>
 
             <li class="card control">
@@ -33,20 +33,20 @@
 
             <li class="card control">
                 <div class="control">
-                    <h3><strong>LED Growlight</strong></h3>
+                    <h3><strong>Mist Maker</strong></h3>
                     <section>
                         <h3>Status</h3>
                         <label class="switch">
-                            <input type="checkbox" id="relay_led" <?php if($data['kontrol']['relayLed'] == 1) {
+                            <input type="checkbox" id="relay_mist" <?php if($data['kontrol']['relayMist'] == 1) {
                                 echo 'checked'; } ?>>
                             <span class=" slider round"></span>
                         </label>
                     </section>
                     <section class="range">
-                        <h3>PWM LED</h3>
-                        <h1 id="pwm_led_val"><?=$data['kontrol']['dutyLed'];?> %</h1>
-                        <input type="range" value="<?=$data['kontrol']['dutyLed'];?>" id="led_pwm" min="0" max="100">
-                        <button id="setLed">Set</button>
+                        <h3>PWM Mist Maker</h3>
+                        <h1 id="pwm_mist_val"><?=$data['kontrol']['dutyMist'];?> %</h1>
+                        <input type="range" value="<?=$data['kontrol']['dutyMist'];?>" id="mist_pwm" min="0" max="100">
+                        <button id="setMist">Set</button>
                     </section>
                 </div>
             </li>
@@ -55,7 +55,6 @@
                     <h3><strong>Kipas</strong></h3>
                     <section>
                         <h3>Status</h3>
-
                         <label class="switch">
                             <input type="checkbox" id="relay_fan" <?php if($data['kontrol']['relayFan'] == 1) {
                                 echo 'checked'; } ?>>
@@ -73,11 +72,20 @@
             </li>
             <li class="card control">
                 <div class="control">
-                    <h3><strong>Water Pump</strong></h3>
+                    <h3><strong>Switch Aktuator</strong></h3>
                     <section>
-                        <h3>Status</h3>
+                        <h3>LED Growlight</h3>
                         <label class="switch">
-                            <input type="checkbox" id="relay_pump">
+                            <input type="checkbox" <?php if($data['kontrol']['relayLed'] == 1) {
+                                echo 'checked'; } ?> id="relay_led">
+                            <span class=" slider round"></span>
+                        </label>
+                    </section>
+                    <section>
+                        <h3>Pompa Air</h3>
+                        <label class="switch">
+                            <input type="checkbox" <?php if($data['kontrol']['relayPump'] ==1) {
+                                echo 'checked'; } ?> id="relay_pump">
                             <span class=" slider round"></span>
                         </label>
                     </section>

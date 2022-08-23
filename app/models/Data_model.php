@@ -46,7 +46,7 @@ class Data_model{
             $halamanAktif = 1;
         }
         $awalData = ($halamanAktif*$dataPerPage)- $dataPerPage;
-        $result = mysqli_query($this->conn, "SELECT device_id, ROUND(AVG(suhu),2) AS avgSuhu, ROUND(AVG(kelembapan),2) AS avgKelembapan, ROUND(AVG(intensitas_cahaya),2) as avgIntensitasCahaya, HOUR(waktu_input) as hh, DATE(waktu_input) as dd FROM sensor_value  WHERE DATE_SUB(waktu_input, INTERVAL 1 HOUR) GROUP BY hh LIMIT $awalData,$dataPerPage");
+        $result = mysqli_query($this->conn, "SELECT device_id, ROUND(AVG(suhu),2) AS avgSuhu, ROUND(AVG(kelembapan),2) AS avgKelembapan, ROUND(AVG(intensitas_cahaya),2) as avgIntensitasCahaya, HOUR(waktu_input) as hh, DATE(waktu_input) as dd FROM sensor_value  WHERE DATE(waktu_input) = CURDATE() GROUP BY hh LIMIT $awalData,$dataPerPage");
         $rows= [];
         while($row = mysqli_fetch_assoc($result)){
             $rows[] = $row;
@@ -54,15 +54,22 @@ class Data_model{
         return $rows;
     }
 
+    public function getRealtimeSensor(){
+        $result = mysqli_query($this->conn,"SELECT suhu,kelembapan,ketinggian_tanaman ,intensitas_cahaya FROM sensor_value ORDER BY id DESC LIMIT 1");
+        $row = mysqli_fetch_assoc($result);
+        $row = array_map('floatval', $row);
+        return $row;
+    }
+
     public function averageDataSensor(){
-        $result = mysqli_query($this->conn, "SELECT ROUND(AVG(suhu),2) AS avgSuhu, ROUND(AVG(kelembapan),2) AS avgKelembapan, HOUR(waktu_input) as hh, DATE(waktu_input) as dd, ROUND(AVG(intensitas_cahaya),2) as avgIntensitasCahaya, ROUND(AVG(level),2) as avgLevel FROM sensor_value WHERE DATE_SUB(waktu_input, INTERVAL 1 HOUR) GROUP BY hh");
+        $result = mysqli_query($this->conn, "SELECT ROUND(AVG(suhu),2) AS avgSuhu, ROUND(AVG(kelembapan),2) AS avgKelembapan, HOUR(waktu_input) as hh, DATE(waktu_input) as dd, ROUND(AVG(intensitas_cahaya),2) as avgIntensitasCahaya, ROUND(AVG(ketinggian_tanaman ),2) as avgketinggian_tanaman  FROM sensor_value WHERE DATE_SUB(waktu_input, INTERVAL 1 HOUR) GROUP BY hh");
         $row = mysqli_fetch_assoc($result);
         $row = array_map('floatval', $row);
         return $row;
     }
 
     public function averageDataSensorAll(){
-        $result = mysqli_query($this->conn, "SELECT ROUND(AVG(suhu),2) AS avgSuhu, ROUND(AVG(kelembapan),2) AS avgKelembapan, HOUR(waktu_input) as hh, ROUND(AVG(intensitas_cahaya),2) as avgIntensitasCahaya, ROUND(AVG(level),2) as avgLevel FROM sensor_value WHERE DATE_SUB(waktu_input, INTERVAL 1 HOUR) GROUP BY hh");
+        $result = mysqli_query($this->conn, "SELECT ROUND(AVG(suhu),2) AS avgSuhu, ROUND(AVG(kelembapan),2) AS avgKelembapan, HOUR(waktu_input) as hh, ROUND(AVG(intensitas_cahaya),2) as avgIntensitasCahaya, ROUND(AVG(ketinggian_tanaman ),2) as avgketinggian_tanaman  FROM sensor_value WHERE DATE(waktu_input) = CURDATE() GROUP BY hh");
         $rows= [];
         while($row = mysqli_fetch_assoc($result)){
             $row = array_map('floatval', $row);
@@ -72,7 +79,7 @@ class Data_model{
     }
 
     public function getDataSensor($sensor_param){
-        $result = mysqli_query($this->conn, "SELECT ROUND(AVG($sensor_param),2) AS avgVal,  HOUR(waktu_input) as hh FROM sensor_value WHERE DATE_SUB(waktu_input, INTERVAL 1 HOUR) GROUP BY hh");
+        $result = mysqli_query($this->conn, "SELECT ROUND(AVG($sensor_param),2) AS avgVal,  HOUR(waktu_input) as hh FROM sensor_value WHERE DATE(waktu_input) = CURDATE() GROUP BY hh");
         $rows= [];
         while($row = mysqli_fetch_assoc($result)){
             $row = array_map('floatval', $row);

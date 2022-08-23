@@ -46,7 +46,7 @@
 
         <div class="flexbox">
             <div class="grafik-container">
-                <?php
+                <?php  
                 $hour = [];
                 $avg = [];
              ?>
