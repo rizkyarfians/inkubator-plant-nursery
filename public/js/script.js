@@ -45,3 +45,10 @@ if (closeButton) {
     flash.style.display = "none";
   });
 }
+
+setInterval(myTimer, 100000);
+
+function myTimer() {
+  window.location.reload();
+  console.log("Page Reload");
+}

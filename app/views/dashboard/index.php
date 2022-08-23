@@ -1,5 +1,6 @@
 <div class="main">
     <h1>Dashboard</h1>
+    <h2>Updated Data : <?= $data['sensor']['date'];?></h2>
     <?php Flasher::flash(); ?>
     <div class="container_main">
         <ul>

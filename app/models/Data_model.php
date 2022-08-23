@@ -55,9 +55,8 @@ class Data_model{
     }
 
     public function getRealtimeSensor(){
-        $result = mysqli_query($this->conn,"SELECT suhu,kelembapan,ketinggian_tanaman ,intensitas_cahaya FROM sensor_value ORDER BY id DESC LIMIT 1");
+        $result = mysqli_query($this->conn,"SELECT suhu,kelembapan,ketinggian_tanaman ,intensitas_cahaya,waktu_input as date FROM sensor_value ORDER BY id DESC LIMIT 1");
         $row = mysqli_fetch_assoc($result);
-        $row = array_map('floatval', $row);
         return $row;
     }
 
@@ -91,6 +90,8 @@ class Data_model{
     public function getDataKontrol(){
         $result = mysqli_query($this->conn,"SELECT * FROM kontrol_aktuator");
         $row = mysqli_fetch_assoc($result);
+        $row['dutyMist'] = ((int)$row['pwmMist']/255)*100;
+        $row['dutyFan'] = ((int)$row['pwmFan']/255)*100;
         return $row;
     }
 
